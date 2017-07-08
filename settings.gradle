@@ -1,0 +1,4 @@
+rootProject.name = 'javaLab'
+include 'tdd'
+findProject(':tdd')?.name = 'javaLab'
+
