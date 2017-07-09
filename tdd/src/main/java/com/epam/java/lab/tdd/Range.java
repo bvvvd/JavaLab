@@ -35,7 +35,9 @@ public class Range {
     }
 
     boolean isConcurrent(Range otherRange) {
-        return false;
+        Objects.requireNonNull(otherRange);
+
+        return !(this.isAfter(otherRange) || this.isBefore(otherRange));
     }
 
     long getLowerBound() {

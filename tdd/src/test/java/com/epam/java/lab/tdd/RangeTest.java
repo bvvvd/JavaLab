@@ -57,7 +57,6 @@ class RangeTest {
         assertThrows(NullPointerException.class, () -> range.isAfter(null));
     }
 
-
     @Test
     @DisplayName("isAfter will return true when the argument Range is before")
     void testThatIsAfterReturnsTrueOnBeforeRange() {
@@ -66,17 +65,45 @@ class RangeTest {
     }
 
     @Test
-    @DisplayName("isBefore will return false when the argument Range is before")
+    @DisplayName("isAfter will return false when the argument Range is after")
     void testThatIsAfterReturnsFalseOnAfterArgument() {
         Range afterRange = new Range(6, 7);
         assertThat(range.isAfter(afterRange), is(false));
     }
 
     @Test
-    @DisplayName("isBefore will return false when Ranges have some intersections")
+    @DisplayName("isAfter will return false when Ranges have some intersections")
     void testThatIsAfterReturnsFalseOnIntersectedArgument() {
         Range intersectRange = new Range(-10, 0);
         assertThat(range.isAfter(intersectRange), is(false));
+    }
+
+    @Test
+    @DisplayName("isConcurrent will throw NPE when argument is null")
+    void testThatIsConcurrentFailsOnNullArgument() {
+        assertThrows(NullPointerException.class, () -> range.isConcurrent(null));
+    }
+
+    @Test
+    @DisplayName("isConcurrent will return true when Ranges have some intersections")
+    void testThatIsConcurrentReturnsTrueOnIntersectedArgument() {
+        Range concurrentRange = new Range(0, 2);
+        assertThat(range.isConcurrent(concurrentRange), is(true));
+    }
+
+    @Test
+    @DisplayName("isConcurent will return false when the argument Range is before")
+    void testThatIsConcurrentReturnsFalseOnBeforeArgument() {
+        Range beforeRange = new Range(-20,-10);
+        assertThat(range.isConcurrent(beforeRange), is(false));
+    }
+
+
+    @Test
+    @DisplayName("isConcurent will return false when the argument Range is after")
+    void testThatIsConcurrentReturnsFalseOnAfterArgument() {
+        Range afterRange = new Range(10,20);
+        assertThat(range.isConcurrent(afterRange), is(false));
     }
 
 }
