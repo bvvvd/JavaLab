@@ -1,6 +1,7 @@
 package com.epam.java.lab.tdd;
 
 import static org.hamcrest.core.Is.is;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ class RangeTest {
 
     @BeforeEach
     void before() {
-        range = new Range(-5,5);
+        range = new Range(-5, 5);
     }
 
     @Test
@@ -32,7 +33,7 @@ class RangeTest {
     @Test
     @DisplayName("isBefore will return true when the argument Range is after")
     void testThatIsBeforeReturnsTrueOnAfterRange() {
-        Range afterRange = new Range(10,15);
+        Range afterRange = new Range(10, 15);
         assertThat(range.isBefore(afterRange), is(true));
     }
 
@@ -49,4 +50,33 @@ class RangeTest {
         Range intersectRange = new Range(-10, 0);
         assertThat(range.isBefore(intersectRange), is(false));
     }
+
+    @Test
+    @DisplayName("isAfter will throw NPE when argument is null")
+    void testThatIsAfterFailsOnNullArgument() {
+        assertThrows(NullPointerException.class, () -> range.isAfter(null));
+    }
+
+
+    @Test
+    @DisplayName("isAfter will return true when the argument Range is before")
+    void testThatIsAfterReturnsTrueOnBeforeRange() {
+        Range beforeRange = new Range(-10, -8);
+        assertThat(range.isAfter(beforeRange), is(true));
+    }
+
+    @Test
+    @DisplayName("isBefore will return false when the argument Range is before")
+    void testThatIsAfterReturnsFalseOnAfterArgument() {
+        Range afterRange = new Range(6, 7);
+        assertThat(range.isAfter(afterRange), is(false));
+    }
+
+    @Test
+    @DisplayName("isBefore will return false when Ranges have some intersections")
+    void testThatIsAfterReturnsFalseOnIntersectedArgument() {
+        Range intersectRange = new Range(-10, 0);
+        assertThat(range.isAfter(intersectRange), is(false));
+    }
+
 }

@@ -29,7 +29,9 @@ public class Range {
     }
 
     boolean isAfter(Range otherRange) {
-        return false;
+        Objects.requireNonNull(otherRange);
+
+        return lowerBound > otherRange.upperBound;
     }
 
     boolean isConcurrent(Range otherRange) {
