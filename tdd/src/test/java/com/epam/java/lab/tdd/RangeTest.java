@@ -6,7 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RangeTest {
@@ -92,7 +99,7 @@ class RangeTest {
     }
 
     @Test
-    @DisplayName("isConcurent will return false when the argument Range is before")
+    @DisplayName("isConcurrent will return false when the argument Range is before")
     void testThatIsConcurrentReturnsFalseOnBeforeArgument() {
         Range beforeRange = new Range(-20, -10);
         assertThat(range.isConcurrent(beforeRange), is(false));
@@ -100,45 +107,67 @@ class RangeTest {
 
 
     @Test
-    @DisplayName("isConcurent will return false when the argument Range is after")
+    @DisplayName("isConcurrent will return false when the argument Range is after")
     void testThatIsConcurrentReturnsFalseOnAfterArgument() {
         Range afterRange = new Range(10, 20);
         assertThat(range.isConcurrent(afterRange), is(false));
     }
 
     @Test
-    @DisplayName("contains returns true if range contains argument")
+    @DisplayName("contains will return true if range contains argument")
     void testThatContainsReturnsTrueWhenArgumentBelongsToRange() {
         long belongingArgument = 0;
         assertThat(range.contains(belongingArgument), is(true));
     }
 
     @Test
-    @DisplayName("contains returns false if argument is more that upperBound")
+    @DisplayName("contains will return false if argument is more that upperBound")
     void testThatContainsReturnsFalseOnNotGreaterArgument() {
         long greaterArgument = 10;
         assertThat(range.contains(greaterArgument), is(false));
     }
 
     @Test
-    @DisplayName("contains returns false if argument is less than lowerBound")
+    @DisplayName("contains will return false if argument is less than lowerBound")
     void testThatContainsReturnsFalseOnLesserArgument() {
         long lesserArgument = -10;
         assertThat(range.contains(lesserArgument), is(false));
     }
 
     @Test
-    @DisplayName("contatins returns true if argument is equal to lowerBound")
+    @DisplayName("contains will return true if argument is equal to lowerBound")
     void testThatContainsReturnsTrueOnLowerBoundArgument() {
         long lowerBound = range.getLowerBound();
         assertThat(range.contains(lowerBound), is(true));
     }
 
     @Test
-    @DisplayName("contains returns true if argument is equal to upperBound")
+    @DisplayName("contains will return true if argument is equal to upperBound")
     void testThatContainsReturnsTrueOnUpperBoundArgument() {
         long upperBound = range.getUpperBound();
         assertThat(range.contains(upperBound), is(true));
     }
 
+    @Test
+    @DisplayName("asList will return list of all longs belonging to range, including the bounds")
+    void testThatAsListReturnsListOfAllLongsContainingInRange() {
+        List<Long> expected = new ArrayList<>();
+        LongStream.rangeClosed(-5, 5).forEach(expected::add);
+
+        List<Long> actual = range.asList();
+
+        assertThat(expected, equalTo(actual));
+    }
+
+    @Test
+    @DisplayName("asList will return one-element List is lowerBound == upperBound")
+    void testThatAsListReturnsOneElementListWhenRangeContainsOneValue() {
+        List<Long> expected = new ArrayList<>();
+        expected.add(0L);
+
+        Range actualRange = new Range(0, 0);
+
+        List<Long> actual = actualRange.asList();
+        assertThat(expected, equalTo(actual));
+    }
 }

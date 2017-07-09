@@ -1,8 +1,10 @@
 package com.epam.java.lab.tdd;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.LongStream;
 
 public class Range {
 
@@ -11,7 +13,7 @@ public class Range {
 
     public Range(long lowerBound, long upperBound) {
         validateArguments(lowerBound, upperBound);
-        
+
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }
@@ -53,7 +55,10 @@ public class Range {
     }
 
     List<Long> asList() {
-        return null;
+        List<Long> result = new ArrayList<>();
+
+        LongStream.rangeClosed(lowerBound, upperBound).forEach(result::add);
+        return result;
     }
 
     Iterator<Long> asIterator() {
