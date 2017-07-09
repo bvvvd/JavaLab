@@ -41,15 +41,15 @@ public class Range {
     }
 
     long getLowerBound() {
-        return 0;
+        return lowerBound;
     }
 
     long getUpperBound() {
-        return 0;
+        return upperBound;
     }
 
     boolean contains(long value) {
-        return false;
+        return value <= upperBound && value >= lowerBound;
     }
 
     List<Long> asList() {

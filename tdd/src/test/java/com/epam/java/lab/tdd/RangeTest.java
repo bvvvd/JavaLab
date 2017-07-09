@@ -94,7 +94,7 @@ class RangeTest {
     @Test
     @DisplayName("isConcurent will return false when the argument Range is before")
     void testThatIsConcurrentReturnsFalseOnBeforeArgument() {
-        Range beforeRange = new Range(-20,-10);
+        Range beforeRange = new Range(-20, -10);
         assertThat(range.isConcurrent(beforeRange), is(false));
     }
 
@@ -102,8 +102,43 @@ class RangeTest {
     @Test
     @DisplayName("isConcurent will return false when the argument Range is after")
     void testThatIsConcurrentReturnsFalseOnAfterArgument() {
-        Range afterRange = new Range(10,20);
+        Range afterRange = new Range(10, 20);
         assertThat(range.isConcurrent(afterRange), is(false));
+    }
+
+    @Test
+    @DisplayName("contains returns true if range contains argument")
+    void testThatContainsReturnsTrueWhenArgumentBelongsToRange() {
+        long belongingArgument = 0;
+        assertThat(range.contains(belongingArgument), is(true));
+    }
+
+    @Test
+    @DisplayName("contains returns false if argument is more that upperBound")
+    void testThatContainsReturnsFalseOnNotGreaterArgument() {
+        long greaterArgument = 10;
+        assertThat(range.contains(greaterArgument), is(false));
+    }
+
+    @Test
+    @DisplayName("contains returns false if argument is less than lowerBound")
+    void testThatContainsReturnsFalseOnLesserArgument() {
+        long lesserArgument = -10;
+        assertThat(range.contains(lesserArgument), is(false));
+    }
+
+    @Test
+    @DisplayName("contatins returns true if argument is equal to lowerBound")
+    void testThatContainsReturnsTrueOnLowerBoundArgument() {
+        long lowerBound = range.getLowerBound();
+        assertThat(range.contains(lowerBound), is(true));
+    }
+
+    @Test
+    @DisplayName("contains returns true if argument is equal to upperBound")
+    void testThatContainsReturnsTrueOnUpperBoundArgument() {
+        long upperBound = range.getUpperBound();
+        assertThat(range.contains(upperBound), is(true));
     }
 
 }
