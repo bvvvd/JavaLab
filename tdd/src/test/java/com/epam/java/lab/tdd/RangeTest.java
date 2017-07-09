@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -151,8 +152,7 @@ class RangeTest {
     @Test
     @DisplayName("asList will return list of all longs belonging to range, including the bounds")
     void testThatAsListReturnsListOfAllLongsContainingInRange() {
-        List<Long> expected = new ArrayList<>();
-        LongStream.rangeClosed(-5, 5).forEach(expected::add);
+        List<Long> expected = getListOfRangeValues();
 
         List<Long> actual = range.asList();
 
@@ -169,5 +169,23 @@ class RangeTest {
 
         List<Long> actual = actualRange.asList();
         assertThat(expected, equalTo(actual));
+    }
+
+    @Test
+    @DisplayName("asIterator will return Iterator over all values containing in range")
+    void testThatAsIteratorReturnsIteratorForAllLongValuesInRange() {
+        List<Long> expected = getListOfRangeValues();
+        Iterator<Long> expectedIterator = expected.iterator();
+
+        Iterator<Long> actual = range.asIterator();
+
+        expectedIterator.forEachRemaining(
+                expectedLong -> assertThat(expectedLong, equalTo(actual.next())));
+    }
+
+    private List<Long> getListOfRangeValues() {
+        List<Long> expected = new ArrayList<>();
+        LongStream.rangeClosed(range.getLowerBound(), range.getUpperBound()).forEach(expected::add);
+        return expected;
     }
 }

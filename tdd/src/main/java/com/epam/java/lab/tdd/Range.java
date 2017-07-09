@@ -55,13 +55,18 @@ public class Range {
     }
 
     List<Long> asList() {
-        List<Long> result = new ArrayList<>();
-
-        LongStream.rangeClosed(lowerBound, upperBound).forEach(result::add);
-        return result;
+        return getValuesAsList();
     }
 
     Iterator<Long> asIterator() {
-        return null;
+        return getValuesAsList().iterator();
+    }
+
+    private List<Long> getValuesAsList() {
+        List<Long> result = new ArrayList<>();
+
+        LongStream.rangeClosed(lowerBound, upperBound).forEach(result::add);
+
+        return result;
     }
 }
